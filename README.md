@@ -167,23 +167,19 @@ deepeval-ai-support-assistant-eval
                                                                                    
 ```
 
-## ⚠️ Known Limitations
 
-- **PII Leakage metric** - PII Leakage kept failing even on a test case I built specifically with a real email and
-  phone number in it. The reason text it gave actually admitted it found the personal info,
-  but still scored it 0.00. So the score and the explanation don't agree with each other —
-  seems like a real inconsistency in this metric, not something wrong with my assistant.
 
-- **GEval Correctness** failed almost every test at first, because I only told it to compare
-  the reply against the original question, not against what was actually retrieved. Once I
-  added context to what it checks, most of that cleared up. One case still fails though — when
-  there's no info found, my assistant gives out a support email like it's supposed to, but
-  the judge marks that as "made up" since it can't tell that was intentional.
+## 🔍 Key Finding
 
-- Since retrieval is keyword-based, a typo in one of my test questions ("shippping" instead of
-  "shipping") caused retrieval to return nothing for that question, even though a matching
-  article existed — a real gap I hit while testing.
+- The PII Leakage metric kept failing even on a test case deliberately built with a real
+email and phone number. Its own reasoning admitted detecting the personal info, but
+still scored it 0.00 — the score and the explanation don't agree with each other,
+suggesting a real inconsistency in this metric rather than an issue with the assistant.
 
+- One edge case in Correctness testing: when no relevant information is found, the
+assistant correctly falls back to a support email, per its own instructions. The judge
+still flags this as "made up" information, since it has no way to know the fallback was
+intentional rather than a hallucination.
 
 ## 👩‍💻 Author
 Swati J 
